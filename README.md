@@ -31,3 +31,9 @@ THEN I am prompted to enter the employee’s first name, last name, role, and ma
 WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database
 ```
+
+## Documentation
+
+[MySQL Join Documentation](https://www.w3schools.com/mysql/mysql_join.asp)
+[MySQL UPDATE Documentation](https://www.w3schools.com/mysql/mysql_update.asp)
+[MySQL concat Documentation](https://www.w3schools.com/sql/func_mysql_concat.asp)
