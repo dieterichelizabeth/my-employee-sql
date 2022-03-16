@@ -4,9 +4,8 @@ VALUES ("Sales"),
        ("Floral"),
        ("Delivery");
 
--- See the departments table SELECT * FROM department;
+-- SELECT * FROM department;
 
--- tells role belongs to which department
 INSERT INTO roles (title, salary, department_id)
 VALUES ("Lead Social Media Coordinator", 20000.75, 1),
        ("Social Media Marketing Intern", 12800.00, 2),
@@ -16,7 +15,6 @@ VALUES ("Lead Social Media Coordinator", 20000.75, 1),
        ("Head Florist", 22000.00, 3),
        ("Delivery Driver", 14000.00, 4);
 
--- See the roles table --
 -- SELECT * FROM roles;
 -- See the department by searching for "role" --
 -- SELECT roles.id, roles.title, roles.salary, department.department_name
@@ -44,14 +42,12 @@ UPDATE employee
 SET manager_id = 14
 WHERE employee.id = 12;
 
--- See the employee table --
 -- SELECT * FROM employee
 -- See the employee table with required values: currently gets 54 (4 X 14)
-SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.department_name, roles.salary, employee.manager_id
-FROM employee
-    LEFT JOIN roles 
-        ON employee.role_id = roles.id
-    LEFT JOIN department 
-        ON roles.department_id = department.id;
-    LEFT JOIN employee 
-        ON employee.manager_id = employee.id;
+-- SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.department_name, roles.salary, concat(manager.last_name, ", ", manager.first_name) AS manager_full_name
+-- FROM employee
+--     LEFT JOIN roles 
+--         ON employee.role_id = roles.id
+--     LEFT JOIN department 
+--         ON roles.department_id = department.id
+--     LEFT JOIN employee AS manager ON manager.id = employee.manager_id;
