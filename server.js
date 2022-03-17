@@ -1,11 +1,14 @@
 const inquirer = require("inquirer");
 
+// Ascii art from: https://www.asciiart.eu/food-and-drinks/coffee-and-tea
 function welcome() {
   console.log(`
-  <><><><><><><><><>~~~~~~~~~~~~~~~<><><><><><><><><>
-              Employee Management systems
-  <><><><><><><><><>~~~~~~~~~~~~~~~<><><><><><><><><>
-    `);
+      ;)( ;
+    :----:         My Employee SQL:
+   C|====|    Employee Management systems
+    |    |     
+     ----
+`);
   nav();
 }
 
