@@ -20,10 +20,16 @@ function nav() {
         "View All Departments",
         "View All Roles",
         "View All Employees",
+        "View Employees by Manager",
+        "View Employees by Department",
         "Add a Department",
         "Add a Role",
         "Add an Employee",
         "Update an Employee Role",
+        "Update an Employee Manager",
+        "Delete Departments",
+        "Delete Roles",
+        "Delete Employees",
         "Exit",
       ],
     })
@@ -35,6 +41,10 @@ function nav() {
         viewRoles();
       } else if (nextPrompt === "View All Employees") {
         viewEmployees();
+      } else if (nextPrompt === "View Employees by Manager") {
+        viewEmployeesByManager();
+      } else if (nextPrompt === "View Employees by Department") {
+        viewEmployeesByDepartment();
       } else if (nextPrompt === "Add a Department") {
         addDepartment();
       } else if (nextPrompt === "Add a Role") {
@@ -42,7 +52,15 @@ function nav() {
       } else if (nextPrompt === "Add an Employee") {
         addEmployee();
       } else if (nextPrompt === "Update an Employee Role") {
-        updateEmployee();
+        updateEmployeeRole();
+      } else if (nextPrompt === "Update an Employee Manager") {
+        updateEmployeeManager();
+      } else if (nextPrompt === "Delete Departments") {
+        deleteDepartment();
+      } else if (nextPrompt === "Delete Roles") {
+        deleteRole();
+      } else if (nextPrompt === "Delete Employees") {
+        deleteEmployee();
       } else {
         console.log("Thank you for visiting!");
       }
@@ -67,6 +85,18 @@ function viewEmployees() {
   nav();
 }
 
+// Display employees by manager
+function viewEmployeesByManager() {
+  console.log("Employees by Manager table");
+  nav();
+}
+
+// Display employees by department
+function viewEmployeesByDepartment() {
+  console.log("Employees by Department table");
+  nav();
+}
+
 // Add a department to the database
 function addDepartment() {
   console.log("Add Department here");
@@ -85,9 +115,33 @@ function addEmployee() {
   nav();
 }
 
-// Update an employee in the database
-function updateEmployee() {
+// Update an employee's role in the database
+function updateEmployeeRole() {
   console.log("Update Employee's role");
+  nav();
+}
+
+// Update an employee's manager in the database
+function updateEmployeeManager() {
+  console.log("Update Employee's manager");
+  nav();
+}
+
+// Delete a department from the database
+function deleteDepartment() {
+  console.log("Delete a department");
+  nav();
+}
+
+// Delete a role from the database
+function deleteRole() {
+  console.log("Delete a role");
+  nav();
+}
+
+// Delete an employee from the database
+function deleteEmployee() {
+  console.log("Delete an employee");
   nav();
 }
 
