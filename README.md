@@ -34,6 +34,9 @@ THEN I am prompted to select an employee to update and their new role and this i
 
 ## Documentation
 
-[MySQL Join Documentation](https://www.w3schools.com/mysql/mysql_join.asp)
-[MySQL UPDATE Documentation](https://www.w3schools.com/mysql/mysql_update.asp)
-[MySQL concat Documentation](https://www.w3schools.com/sql/func_mysql_concat.asp)
+- [MySQL ORDER BY Documentation](https://www.mysqltutorial.org/mysql-order-by/)
+- [MySQL JOIN Documentation](https://www.w3schools.com/mysql/mysql_join.asp)
+- [MySQL UPDATE Documentation](https://www.w3schools.com/mysql/mysql_update.asp)
+- [MySQL CONCAT Documentation](https://www.w3schools.com/sql/func_mysql_concat.asp)
+- [MySQL WHERE Documentation](https://www.mysqltutorial.org/mysql-where/)
+- [MySQL DELETE Documentation](https://www.mysqltutorial.org/mysql-delete-statement.aspx)
