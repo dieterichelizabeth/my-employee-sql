@@ -257,14 +257,91 @@ function addEmployee() {
 
 // Update an employee's role in the database
 function updateEmployeeRole() {
-  console.log("Update Employee's role");
-  nav();
+  console.log("Update Employee's role:");
+  // variable for employee choice
+  availableEmployees = [
+    "Heather Gardenia",
+    "Sammy Sunflower",
+    "Chris Cornflower",
+  ];
+
+  // variable for role choice
+  availableRoles = [
+    "Salesman",
+    "Lead Social Media Coordinator",
+    "Head Florist",
+    "Delivery Driver",
+  ];
+
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "employeeChoice",
+        message: "Which employee would you like to update?",
+        choices: availableEmployees,
+      },
+      {
+        type: "list",
+        name: "roleChoice",
+        message: "Please select their new role",
+        choices: availableRoles,
+      },
+    ])
+    .then((answers) => {
+      let updateRoleChoice = [];
+      updateRoleChoice.push(answers.employeeChoice);
+      updateRoleChoice.push(answers.roleChoice);
+      console.log(answers); // returns: { employeeChoice: 'Heather Gardenia', roleChoice: 'Delivery Driver' }
+      console.log(updateRoleChoice); // returns: [ 'Heather Gardenia', 'Delivery Driver' ]
+
+      // return to navigation menu
+      nav();
+    });
 }
 
 // Update an employee's manager in the database
 function updateEmployeeManager() {
   console.log("Update Employee's manager");
-  nav();
+  // variable for employee choice
+  availableEmployees = [
+    "Heather Gardenia",
+    "Sammy Sunflower",
+    "Chris Cornflower",
+  ];
+
+  // variable for Manager choice
+  availableManagers = [
+    "Heather Gardenia",
+    "Sammy Sunflower",
+    "Chris Cornflower",
+  ];
+
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "employeeChoice",
+        message: "Which employee would you like to update?",
+        choices: availableEmployees,
+      },
+      {
+        type: "list",
+        name: "managerChoice",
+        message: "Please select their new manager",
+        choices: availableManagers,
+      },
+    ])
+    .then((answers) => {
+      let updateManagerChoice = [];
+      updateManagerChoice.push(answers.employeeChoice);
+      updateManagerChoice.push(answers.managerChoice);
+      console.log(answers); // returns: { employeeChoice: 'Heather Gardenia', managerChoice: 'Sammy Sunflower' }
+      console.log(updateManagerChoice); // returns: [ 'Heather Gardenia', 'Sammy Sunflower' ]
+
+      // return to navigation menu
+      nav();
+    });
 }
 
 // Delete a department from the database
