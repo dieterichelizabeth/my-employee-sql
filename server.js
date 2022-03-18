@@ -88,7 +88,6 @@ function nav() {
     });
 }
 
-// DONE
 // Display departments from the database
 function viewDepartments() {
   console.log(" --- Departments table ---");
@@ -101,7 +100,6 @@ function viewDepartments() {
   });
 }
 
-// DONE
 // Display roles from the database
 function viewRoles() {
   console.log(" --- Roles table --- ");
@@ -119,7 +117,6 @@ function viewRoles() {
   );
 }
 
-// DONE
 // Display employees from the database
 function viewEmployees() {
   console.log(" --- Employees table ---");
@@ -141,7 +138,6 @@ function viewEmployees() {
   );
 }
 
-// DONE
 // Display employees by manager
 function viewEmployeesByManager() {
   console.log(" --- Employees by Manager table ---");
@@ -160,7 +156,6 @@ function viewEmployeesByManager() {
   );
 }
 
-// DONE
 // Display employees by department
 function viewEmployeesByDepartment() {
   console.log(" --- Employees by Department table --- ");
@@ -182,7 +177,6 @@ function viewEmployeesByDepartment() {
   );
 }
 
-// DONE
 // Add a department to the database
 function addDepartment() {
   console.log("Add Department here");
@@ -217,7 +211,6 @@ function addDepartment() {
     });
 }
 
-// DONE
 // Add a role to the database
 function addRole() {
   // variable for available departments
@@ -289,7 +282,6 @@ function addRole() {
     });
 }
 
-// DONE
 // Add an employee to the database
 function addEmployee() {
   // variables for roles and managers
@@ -386,7 +378,6 @@ function addEmployee() {
     });
 }
 
-// COMPLETED DATA REQUEST
 // Update an employee's role in the database
 function updateEmployeeRole() {
   // variables for roles and managers
@@ -409,7 +400,6 @@ function updateEmployeeRole() {
       var employees = dbData.id + ": " + dbData.first_name + dbData.last_name;
       availableEmployees.push(employees);
     });
-    availableEmployees.push("null");
     selectNewRole();
   });
 
@@ -431,19 +421,30 @@ function updateEmployeeRole() {
         },
       ])
       .then((answers) => {
-        let updateRoleChoice = [];
-        updateRoleChoice.push(answers.employeeChoice);
-        updateRoleChoice.push(answers.roleChoice);
-        console.log(answers); // returns: { employeeChoice: '1: ChrisCornflower', roleChoice: '3: Head Florist' }
-        console.log(updateRoleChoice); // returns: [ '1: ChrisCornflower', '3: Head Florist' ]
+        // turn the answer into an array
+        roleArray = answers.roleChoice.split("");
+        employeeArray = answers.employeeChoice.split("");
+        // get the i.d.
+        let roleId = roleArray[0];
+        let employeeId = employeeArray[0];
 
-        // return to navigation menu
-        nav();
+        // query to update an employee's role in the database
+        db.query(
+          `UPDATE employee 
+          SET role_id = ${roleId} 
+          WHERE employee.id = ${employeeId}`,
+          function (err, result, fields) {
+            if (err) throw err;
+            console.log(" Employee's Role Updated! ");
+
+            // return to navigation menu
+            nav();
+          }
+        );
       });
   }
 }
 
-// COMPLETED DATA REQUEST
 // Update an employee's manager in the database
 function updateEmployeeManager() {
   // variables for roles and managers
@@ -480,19 +481,37 @@ function updateEmployeeManager() {
         },
       ])
       .then((answers) => {
-        let updateManagerChoice = [];
-        updateManagerChoice.push(answers.employeeChoice);
-        updateManagerChoice.push(answers.managerChoice);
-        console.log(answers); // returns: { employeeChoice: employeeChoice: '4: TammyTulip', managerChoice: '3: HeatherGardenia' }
-        console.log(updateManagerChoice); // returns: [ '4: TammyTulip', '3: HeatherGardenia' ]
+        // turn the answer into an array
+        employeeArray = answers.employeeChoice.split("");
+        // get the i.d.
+        let employeeId = employeeArray[0];
 
-        // return to navigation menu
-        nav();
+        // get the manager id, or if null- set to null
+        let managerId = [];
+        if (answers.managerChoice === "null") {
+          managerId.push("null");
+        } else {
+          let managerArray = answers.managerChoice.split("");
+          managerId.push(managerArray[0]);
+        }
+
+        // query to update an employee's role in the database
+        db.query(
+          `UPDATE employee 
+          SET manager_id = ${managerId} 
+          WHERE employee.id = ${employeeId}`,
+          function (err, result, fields) {
+            if (err) throw err;
+            console.log(" Employee's Manager Updated! ");
+
+            // return to navigation menu
+            nav();
+          }
+        );
       });
   }
 }
 
-// DONE
 // Delete a department from the database
 function deleteDepartment() {
   // variable for available departments
@@ -541,7 +560,6 @@ function deleteDepartment() {
   }
 }
 
-// DONE
 // Delete a role from the database
 function deleteRole() {
   // variable for role choice
@@ -588,7 +606,6 @@ function deleteRole() {
   }
 }
 
-// DONE
 // Delete an employee from the database
 function deleteEmployee() {
   // variable for employee choice
