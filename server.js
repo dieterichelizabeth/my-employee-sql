@@ -182,6 +182,7 @@ function viewEmployeesByDepartment() {
   );
 }
 
+// DONE
 // Add a department to the database
 function addDepartment() {
   console.log("Add Department here");
@@ -201,11 +202,19 @@ function addDepartment() {
     })
     .then((answer) => {
       newDept = answer.departmentInput;
-      console.log(answer); // returns: { departmentInput: 'Customer Service' }
-      console.log(newDept); // returns: Customer Service
+      // console.log(answer); // returns: { departmentInput: 'Customer Service' }
+      // console.log(newDept); // returns: Customer Service
 
-      // return to navigation menu
-      nav();
+      db.query(
+        `INSERT INTO department (department_name)
+        VALUES ("${newDept}")`,
+        function (err, result, fields) {
+          if (err) throw err;
+          console.log(" Department Added! ");
+          // return to navigation menu
+          nav();
+        }
+      );
     });
 }
 
@@ -462,7 +471,7 @@ function updateEmployeeManager() {
   }
 }
 
-// COMPLETED DATA REQUEST
+// DONE
 // Delete a department from the database
 function deleteDepartment() {
   // variable for available departments
@@ -491,12 +500,22 @@ function deleteDepartment() {
         },
       ])
       .then((answer) => {
-        removeDept = answer.departmentChoice;
-        console.log(answer); // returns: { departmentChoice: '4: Delivery' }
-        console.log(removeDept); // returns: 4: Delivery
+        // turn the answer into an array
+        deptArray = answer.departmentChoice.split("");
+        // get the i.d.
+        let departmentId = deptArray[0];
 
-        // return to navigation menu
-        nav();
+        // query to remove the department from the database
+        db.query(
+          `DELETE FROM department
+          WHERE department.id = ${departmentId}`,
+          function (err, result, fields) {
+            if (err) throw err;
+            console.log(" Department Deleted! ");
+            // return to navigation menu
+            nav();
+          }
+        );
       });
   }
 }
