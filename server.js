@@ -140,14 +140,41 @@ function viewEmployees() {
 
 // Display employees by manager
 function viewEmployeesByManager() {
-  console.log("Employees by Manager table");
-  nav();
+  console.log(" --- Employees by Manager table ---");
+
+  db.query(
+    `SELECT employee.id, employee.first_name, employee.last_name, CONCAT(manager.last_name, ", ", manager.first_name) AS manager_full_name
+    FROM employee
+    LEFT JOIN employee AS manager ON manager.id = employee.manager_id
+    ORDER BY manager_full_name DESC`,
+    function (err, result, fields) {
+      if (err) throw err;
+      console.table(result);
+
+      nav();
+    }
+  );
 }
 
 // Display employees by department
 function viewEmployeesByDepartment() {
-  console.log("Employees by Department table");
-  nav();
+  console.log(" --- Employees by Department table --- ");
+
+  db.query(
+    `SELECT employee.id, employee.first_name, employee.last_name, department.department_name
+    FROM employee
+    LEFT JOIN roles 
+            ON employee.role_id = roles.id
+    LEFT JOIN department 
+            ON roles.department_id = department.id
+    ORDER BY department_name DESC;`,
+    function (err, result, fields) {
+      if (err) throw err;
+      console.table(result);
+
+      nav();
+    }
+  );
 }
 
 // Add a department to the database
