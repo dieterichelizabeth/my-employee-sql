@@ -202,8 +202,6 @@ function addDepartment() {
     })
     .then((answer) => {
       newDept = answer.departmentInput;
-      // console.log(answer); // returns: { departmentInput: 'Customer Service' }
-      // console.log(newDept); // returns: Customer Service
 
       db.query(
         `INSERT INTO department (department_name)
@@ -211,6 +209,7 @@ function addDepartment() {
         function (err, result, fields) {
           if (err) throw err;
           console.log(" Department Added! ");
+
           // return to navigation menu
           nav();
         }
@@ -218,7 +217,7 @@ function addDepartment() {
     });
 }
 
-// COMPLETED DATA REQUEST
+// DONE
 // Add a role to the database
 function addRole() {
   // variable for available departments
@@ -270,16 +269,23 @@ function addRole() {
       },
     ])
     .then((answers) => {
-      let roleInput = [];
-      roleInput.push(answers.titleInput);
-      roleInput.push(answers.salaryInput);
-      roleInput.push(answers.departmentInput);
+      let title = answers.titleInput;
+      let salary = answers.salaryInput;
+      let deptArray = answers.departmentInput.split("");
+      let departmentId = deptArray[0];
 
-      console.log(answers); // returns: { titleInput: 'Cashier', salaryInput: '10000.00', departmentInput: '5: Customer Service' }
-      console.log(roleInput); // returns: [ 'Cashier', '10000.00', '5: Customer Service' ]
+      // query to add a new role to the database
+      db.query(
+        `INSERT INTO roles (title, salary, department_id)
+        VALUES ("${title}", ${salary}, ${departmentId})`,
+        function (err, result, fields) {
+          if (err) throw err;
+          console.log(" Role Added! ");
 
-      // return to navigation menu
-      nav();
+          // return to navigation menu
+          nav();
+        }
+      );
     });
 }
 
@@ -520,7 +526,7 @@ function deleteDepartment() {
   }
 }
 
-// COMPLETED DATA REQUEST
+// DONE
 // Delete a role from the database
 function deleteRole() {
   // variable for role choice
@@ -546,12 +552,23 @@ function deleteRole() {
         choices: availableRoles,
       })
       .then((answer) => {
-        removeRole = answer.roleChoice;
-        console.log(answer); // returns: { roleChoice: '5: Bouquet Arranger' }
-        console.log(removeRole); // returns: 5: Bouquet Arranger
+        // turn the answer into an array
+        roleArray = answer.roleChoice.split("");
+        // get the i.d.
+        let roleId = roleArray[0];
 
-        // return to navigation menu
-        nav();
+        // query to remove a role from the database
+        db.query(
+          `DELETE FROM roles
+          WHERE roles.id = ${roleId}`,
+          function (err, result, fields) {
+            if (err) throw err;
+            console.log(" Role Deleted! ");
+
+            // return to navigation menu
+            nav();
+          }
+        );
       });
   }
 }
