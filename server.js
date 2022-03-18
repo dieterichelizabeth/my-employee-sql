@@ -1,5 +1,5 @@
 const inquirer = require("inquirer");
-const { exit } = require("process");
+// const { exit } = require("process"); -- ?
 
 // Ascii art from: https://www.asciiart.eu/food-and-drinks/coffee-and-tea
 function welcome() {
@@ -151,7 +151,8 @@ function addRole() {
       {
         type: "input",
         name: "salaryInput",
-        message: "Please enter a salary for the new role.",
+        message:
+          "Please enter a salary for the new role using the format: XXXXX.XX",
         validate: (salaryInput) => {
           if (!salaryInput) {
             console.log("Ack! Please enter a salary for the new role-");
