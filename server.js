@@ -103,19 +103,156 @@ function viewEmployeesByDepartment() {
 // Add a department to the database
 function addDepartment() {
   console.log("Add Department here");
-  nav();
+  inquirer
+    .prompt({
+      type: "input",
+      name: "departmentInput",
+      message: "Please enter the new department name.",
+      validate: (departmentInput) => {
+        if (!departmentInput) {
+          console.log("Ack! Please enter the department name-");
+          return false;
+        } else {
+          return true;
+        }
+      },
+    })
+    .then((answer) => {
+      newDept = answer.departmentInput;
+      console.log(answer); // returns: { departmentInput: 'Customer Service' }
+      console.log(newDept); // returns: Customer Service
+
+      // return to navigation menu
+      nav();
+    });
 }
 
 // Add a role to the database
 function addRole() {
-  console.log("Add Role here");
-  nav();
+  // variable for available departments
+  availableDepartments = ["Sales", "Marketing", "Delivery", "Floral"];
+
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "titleInput",
+        message: "Please enter the new role name.",
+        validate: (titleInput) => {
+          if (!titleInput) {
+            console.log("Ack! Please enter the role name-");
+            return false;
+          } else {
+            return true;
+          }
+        },
+      },
+      {
+        type: "input",
+        name: "salaryInput",
+        message: "Please enter a salary for the new role.",
+        validate: (salaryInput) => {
+          if (!salaryInput) {
+            console.log("Ack! Please enter a salary for the new role-");
+            return false;
+          } else {
+            return true;
+          }
+        },
+      },
+      {
+        type: "list",
+        name: "departmentInput",
+        message: "Please choose which department this role belongs to.",
+        choices: availableDepartments,
+      },
+    ])
+    .then((answers) => {
+      let roleInput = [];
+      roleInput.push(answers.titleInput);
+      roleInput.push(answers.salaryInput);
+      roleInput.push(answers.departmentInput);
+
+      console.log(answers); // returns: { titleInput: 'Cashier', salaryInput: '10000.00', departmentInput: 'Customer Service' }
+      console.log(roleInput); // returns: [ 'Cashier', '10000.00', 'Customer Service' ]
+
+      // return to navigation menu
+      nav();
+    });
 }
 
 // Add an employee to the database
 function addEmployee() {
-  console.log("Add Employee here");
-  nav();
+  // variable for role choice
+  availableRoles = [
+    "Salesman",
+    "Lead Social Media Coordinator",
+    "Head Florist",
+    "Delivery Driver",
+  ];
+
+  // variable for manager choice IMPORTANT- NULL WILL NEED TO BE ADDED
+  availableManagers = [
+    "Heather Gardenia",
+    "Sammy Sunflower",
+    "Chris Cornflower",
+    "null",
+  ];
+
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "firstNameInput",
+        message: "Please enter the employee's first name.",
+        validate: (firstNameInput) => {
+          if (!firstNameInput) {
+            console.log("Ack! Please enter the employee's first name-");
+            return false;
+          } else {
+            return true;
+          }
+        },
+      },
+      {
+        type: "input",
+        name: "lastNameInput",
+        message: "Please enter the employee's last name.",
+        validate: (lastNameInput) => {
+          if (!lastNameInput) {
+            console.log("Ack! Please enter the employee's last name-");
+            return false;
+          } else {
+            return true;
+          }
+        },
+      },
+      {
+        type: "list",
+        name: "roleInput",
+        message: "Please choose a role for this employee.",
+        choices: availableRoles,
+      },
+      {
+        type: "list",
+        name: "managerInput",
+        message: "Please choose the employee's manager.",
+        choices: availableManagers,
+      },
+    ])
+    .then((answers) => {
+      let employeeInput = [];
+      employeeInput.push(answers.firstNameInput);
+      employeeInput.push(answers.lastNameInput);
+      employeeInput.push(answers.roleInput);
+      employeeInput.push(answers.managerInput);
+
+      console.log(answers); // returns: { firstNameInput: 'Valarie', lastNameInput: 'Violet', roleInput: 'Head Florist', managerInput: 'Heather Gardenia' }
+      console.log(employeeInput); // returns: [ 'Valarie', 'Violet', 'Head Florist', 'Heather Gardenia' ]
+
+      // return to navigation menu
+      nav();
+    });
 }
 
 // Update an employee's role in the database
@@ -132,20 +269,77 @@ function updateEmployeeManager() {
 
 // Delete a department from the database
 function deleteDepartment() {
-  console.log("Delete a department");
-  nav();
+  // variable for available departments
+  availableDepartments = ["Sales", "Marketing", "Delivery", "Floral"];
+
+  inquirer
+    .prompt({
+      type: "list",
+      name: "departmentChoice",
+      message: "Please choose a department to delete.",
+      choices: availableDepartments,
+    })
+    .then((answer) => {
+      removeDept = answer.departmentChoice;
+      console.log(answer); // returns: { departmentChoice: 'Sales' }
+      console.log(removeDept); // returns: Sales
+
+      // return to navigation menu
+      nav();
+    });
 }
 
 // Delete a role from the database
 function deleteRole() {
-  console.log("Delete a role");
-  nav();
+  // variable for role choice
+  availableRoles = [
+    "Salesman",
+    "Lead Social Media Coordinator",
+    "Head Florist",
+    "Delivery Driver",
+  ];
+
+  inquirer
+    .prompt({
+      type: "list",
+      name: "roleChoice",
+      message: "Please choose a role to delete.",
+      choices: availableRoles,
+    })
+    .then((answer) => {
+      removeRole = answer.roleChoice;
+      console.log(answer); // returns: { roleChoice: 'Salesman' }
+      console.log(removeRole); // returns: Salesman
+
+      // return to navigation menu
+      nav();
+    });
 }
 
 // Delete an employee from the database
 function deleteEmployee() {
-  console.log("Delete an employee");
-  nav();
+  // variable for employee choice
+  availableEmployees = [
+    "Heather Gardenia",
+    "Sammy Sunflower",
+    "Chris Cornflower",
+  ];
+
+  inquirer
+    .prompt({
+      type: "list",
+      name: "employeeChoice",
+      message: "Please choose an employee to delete.",
+      choices: availableEmployees,
+    })
+    .then((answer) => {
+      removeEmployee = answer.employeeChoice;
+      console.log(answer); // returns: { employeeChoice: 'Heather Gardenia' }
+      console.log(removeEmployee); // returns: Heather Gardenia
+
+      // return to navigation menu
+      nav();
+    });
 }
 
 welcome();
