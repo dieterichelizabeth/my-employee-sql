@@ -1,4 +1,5 @@
 const inquirer = require("inquirer");
+const { exit } = require("process");
 
 // Ascii art from: https://www.asciiart.eu/food-and-drinks/coffee-and-tea
 function welcome() {
@@ -65,7 +66,7 @@ function nav() {
       } else if (nextPrompt === "Delete Employees") {
         deleteEmployee();
       } else {
-        console.log("Thank you for visiting!");
+        goodbye();
       }
     });
 }
@@ -417,6 +418,21 @@ function deleteEmployee() {
       // return to navigation menu
       nav();
     });
+}
+
+// Exit the application
+// Ascii art from: https://www.asciiart.eu/plants/cactus
+function goodbye() {
+  console.log(`
+    *-.
+    |  |
+,.  |  |
+| |_|  | ,.     Thank you for using
+'---.  |_| |      My Employee SQL
+    |  .--'
+    |  |
+    |  | 
+`);
 }
 
 welcome();
