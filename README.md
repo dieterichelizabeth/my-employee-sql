@@ -41,3 +41,6 @@ THEN I am prompted to select an employee to update and their new role and this i
 - [MySQL WHERE Documentation](https://www.mysqltutorial.org/mysql-where/)
 - [MySQL DELETE Documentation](https://www.mysqltutorial.org/mysql-delete-statement.aspx)
 - [Node.js queries Documentation](https://www.w3schools.com/nodejs/nodejs_mysql_select.asp)
+- [.split() Documentation](https://www.w3schools.com/jsref/jsref_split.asp)
+
+- [MySQL SUM Documentation](https://www.mysqltutorial.org/mysql-sum/)
