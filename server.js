@@ -88,6 +88,7 @@ function nav() {
     });
 }
 
+// DONE
 // Display departments from the database
 function viewDepartments() {
   console.log(" --- Departments table ---");
@@ -100,6 +101,7 @@ function viewDepartments() {
   });
 }
 
+// DONE
 // Display roles from the database
 function viewRoles() {
   console.log(" --- Roles table --- ");
@@ -117,6 +119,7 @@ function viewRoles() {
   );
 }
 
+// DONE
 // Display employees from the database
 function viewEmployees() {
   console.log(" --- Employees table ---");
@@ -138,6 +141,7 @@ function viewEmployees() {
   );
 }
 
+// DONE
 // Display employees by manager
 function viewEmployeesByManager() {
   console.log(" --- Employees by Manager table ---");
@@ -156,6 +160,7 @@ function viewEmployeesByManager() {
   );
 }
 
+// DONE
 // Display employees by department
 function viewEmployeesByDepartment() {
   console.log(" --- Employees by Department table --- ");
@@ -204,10 +209,20 @@ function addDepartment() {
     });
 }
 
+// COMPLETED DATA REQUEST
 // Add a role to the database
 function addRole() {
   // variable for available departments
-  availableDepartments = ["Sales", "Marketing", "Delivery", "Floral"];
+  const availableDepartments = [];
+
+  // dabatase query to recieve department name and id
+  db.query(`SELECT * FROM department`, function (err, result, fields) {
+    if (err) throw err;
+    result.forEach((dbData) => {
+      var departments = dbData.id + ": " + dbData.department_name;
+      availableDepartments.push(departments);
+    });
+  });
 
   inquirer
     .prompt([
@@ -251,31 +266,39 @@ function addRole() {
       roleInput.push(answers.salaryInput);
       roleInput.push(answers.departmentInput);
 
-      console.log(answers); // returns: { titleInput: 'Cashier', salaryInput: '10000.00', departmentInput: 'Customer Service' }
-      console.log(roleInput); // returns: [ 'Cashier', '10000.00', 'Customer Service' ]
+      console.log(answers); // returns: { titleInput: 'Cashier', salaryInput: '10000.00', departmentInput: '5: Customer Service' }
+      console.log(roleInput); // returns: [ 'Cashier', '10000.00', '5: Customer Service' ]
 
       // return to navigation menu
       nav();
     });
 }
 
+// COMPLETED DATA REQUEST
 // Add an employee to the database
 function addEmployee() {
-  // variable for role choice
-  availableRoles = [
-    "Salesman",
-    "Lead Social Media Coordinator",
-    "Head Florist",
-    "Delivery Driver",
-  ];
+  // variables for roles and managers
+  const availableRoles = [];
+  const availableManagers = [];
 
-  // variable for manager choice IMPORTANT- NULL WILL NEED TO BE ADDED
-  availableManagers = [
-    "Heather Gardenia",
-    "Sammy Sunflower",
-    "Chris Cornflower",
-    "null",
-  ];
+  // dabatase query to recieve role title and id
+  db.query(`SELECT * FROM roles`, function (err, result, fields) {
+    if (err) throw err;
+    result.forEach((dbData) => {
+      var role = dbData.id + ": " + dbData.title;
+      availableRoles.push(role);
+    });
+  });
+
+  // dabatase query to recieve employee name and id
+  db.query(`SELECT * FROM employee`, function (err, result, fields) {
+    if (err) throw err;
+    result.forEach((dbData) => {
+      var employees = dbData.id + ": " + dbData.first_name + dbData.last_name;
+      availableManagers.push(employees);
+    });
+    availableManagers.push("null");
+  });
 
   inquirer
     .prompt([
@@ -325,176 +348,229 @@ function addEmployee() {
       employeeInput.push(answers.roleInput);
       employeeInput.push(answers.managerInput);
 
-      console.log(answers); // returns: { firstNameInput: 'Valarie', lastNameInput: 'Violet', roleInput: 'Head Florist', managerInput: 'Heather Gardenia' }
-      console.log(employeeInput); // returns: [ 'Valarie', 'Violet', 'Head Florist', 'Heather Gardenia' ]
+      console.log(answers); // returns: { firstNameInput: 'Valarie', lastNameInput: 'Violet', roleInput: '4: Delivery Driver', managerInput: '2: SammySunflower' }
+      console.log(employeeInput); // returns: [ 'Valarie', 'Violet', '1: Salesman', '2: SammySunflower' ]
 
       // return to navigation menu
       nav();
     });
 }
 
+// COMPLETED DATA REQUEST
 // Update an employee's role in the database
 function updateEmployeeRole() {
-  console.log("Update Employee's role:");
-  // variable for employee choice
-  availableEmployees = [
-    "Heather Gardenia",
-    "Sammy Sunflower",
-    "Chris Cornflower",
-  ];
+  // variables for roles and managers
+  const availableRoles = [];
+  const availableEmployees = [];
 
-  // variable for role choice
-  availableRoles = [
-    "Salesman",
-    "Lead Social Media Coordinator",
-    "Head Florist",
-    "Delivery Driver",
-  ];
-
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        name: "employeeChoice",
-        message: "Which employee would you like to update?",
-        choices: availableEmployees,
-      },
-      {
-        type: "list",
-        name: "roleChoice",
-        message: "Please select their new role",
-        choices: availableRoles,
-      },
-    ])
-    .then((answers) => {
-      let updateRoleChoice = [];
-      updateRoleChoice.push(answers.employeeChoice);
-      updateRoleChoice.push(answers.roleChoice);
-      console.log(answers); // returns: { employeeChoice: 'Heather Gardenia', roleChoice: 'Delivery Driver' }
-      console.log(updateRoleChoice); // returns: [ 'Heather Gardenia', 'Delivery Driver' ]
-
-      // return to navigation menu
-      nav();
+  // first, perform a dabatase query to recieve role title and id
+  db.query(`SELECT * FROM roles`, function (err, result, fields) {
+    if (err) throw err;
+    result.forEach((dbData) => {
+      var role = dbData.id + ": " + dbData.title;
+      availableRoles.push(role);
     });
+  });
+
+  // first, perform a dabatase query to recieve employee name and id
+  db.query(`SELECT * FROM employee`, function (err, result, fields) {
+    if (err) throw err;
+    result.forEach((dbData) => {
+      var employees = dbData.id + ": " + dbData.first_name + dbData.last_name;
+      availableEmployees.push(employees);
+    });
+    availableEmployees.push("null");
+    selectNewRole();
+  });
+
+  // then, move to prompts
+  function selectNewRole() {
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "employeeChoice",
+          message: "Which employee would you like to update?",
+          choices: availableEmployees,
+        },
+        {
+          type: "list",
+          name: "roleChoice",
+          message: "Please select their new role",
+          choices: availableRoles,
+        },
+      ])
+      .then((answers) => {
+        let updateRoleChoice = [];
+        updateRoleChoice.push(answers.employeeChoice);
+        updateRoleChoice.push(answers.roleChoice);
+        console.log(answers); // returns: { employeeChoice: '1: ChrisCornflower', roleChoice: '3: Head Florist' }
+        console.log(updateRoleChoice); // returns: [ '1: ChrisCornflower', '3: Head Florist' ]
+
+        // return to navigation menu
+        nav();
+      });
+  }
 }
 
+// COMPLETED DATA REQUEST
 // Update an employee's manager in the database
 function updateEmployeeManager() {
-  console.log("Update Employee's manager");
-  // variable for employee choice
-  availableEmployees = [
-    "Heather Gardenia",
-    "Sammy Sunflower",
-    "Chris Cornflower",
-  ];
+  // variables for roles and managers
+  const availableManagers = [];
+  const availableEmployees = [];
 
-  // variable for Manager choice
-  availableManagers = [
-    "Heather Gardenia",
-    "Sammy Sunflower",
-    "Chris Cornflower",
-  ];
-
-  inquirer
-    .prompt([
-      {
-        type: "list",
-        name: "employeeChoice",
-        message: "Which employee would you like to update?",
-        choices: availableEmployees,
-      },
-      {
-        type: "list",
-        name: "managerChoice",
-        message: "Please select their new manager",
-        choices: availableManagers,
-      },
-    ])
-    .then((answers) => {
-      let updateManagerChoice = [];
-      updateManagerChoice.push(answers.employeeChoice);
-      updateManagerChoice.push(answers.managerChoice);
-      console.log(answers); // returns: { employeeChoice: 'Heather Gardenia', managerChoice: 'Sammy Sunflower' }
-      console.log(updateManagerChoice); // returns: [ 'Heather Gardenia', 'Sammy Sunflower' ]
-
-      // return to navigation menu
-      nav();
+  // first, perform a dabatase query to recieve employees name and id
+  db.query(`SELECT * FROM employee`, function (err, result, fields) {
+    if (err) throw err;
+    result.forEach((dbData) => {
+      var employees = dbData.id + ": " + dbData.first_name + dbData.last_name;
+      availableEmployees.push(employees);
+      availableManagers.push(employees);
     });
+    availableManagers.push("null");
+    selectNewManager();
+  });
+
+  // then, move to prompts
+  function selectNewManager() {
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "employeeChoice",
+          message: "Which employee would you like to update?",
+          choices: availableEmployees,
+        },
+        {
+          type: "list",
+          name: "managerChoice",
+          message: "Please select their new manager",
+          choices: availableManagers,
+        },
+      ])
+      .then((answers) => {
+        let updateManagerChoice = [];
+        updateManagerChoice.push(answers.employeeChoice);
+        updateManagerChoice.push(answers.managerChoice);
+        console.log(answers); // returns: { employeeChoice: employeeChoice: '4: TammyTulip', managerChoice: '3: HeatherGardenia' }
+        console.log(updateManagerChoice); // returns: [ '4: TammyTulip', '3: HeatherGardenia' ]
+
+        // return to navigation menu
+        nav();
+      });
+  }
 }
 
+// COMPLETED DATA REQUEST
 // Delete a department from the database
 function deleteDepartment() {
   // variable for available departments
-  availableDepartments = ["Sales", "Marketing", "Delivery", "Floral"];
+  const availableDepartments = [];
 
-  inquirer
-    .prompt({
-      type: "list",
-      name: "departmentChoice",
-      message: "Please choose a department to delete.",
-      choices: availableDepartments,
-    })
-    .then((answer) => {
-      removeDept = answer.departmentChoice;
-      console.log(answer); // returns: { departmentChoice: 'Sales' }
-      console.log(removeDept); // returns: Sales
-
-      // return to navigation menu
-      nav();
+  // first, perform a dabatase query to recieve department name and id
+  db.query(`SELECT * FROM department`, function (err, result, fields) {
+    if (err) throw err;
+    result.forEach((dbData) => {
+      var departments = dbData.id + ": " + dbData.department_name;
+      availableDepartments.push(departments);
     });
+
+    // then, move to inquirer prompts
+    selectDepartment();
+  });
+
+  function selectDepartment() {
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "departmentChoice",
+          message: "Please choose a department to delete.",
+          choices: availableDepartments,
+        },
+      ])
+      .then((answer) => {
+        removeDept = answer.departmentChoice;
+        console.log(answer); // returns: { departmentChoice: '4: Delivery' }
+        console.log(removeDept); // returns: 4: Delivery
+
+        // return to navigation menu
+        nav();
+      });
+  }
 }
 
+// COMPLETED DATA REQUEST
 // Delete a role from the database
 function deleteRole() {
   // variable for role choice
-  availableRoles = [
-    "Salesman",
-    "Lead Social Media Coordinator",
-    "Head Florist",
-    "Delivery Driver",
-  ];
+  const availableRoles = [];
 
-  inquirer
-    .prompt({
-      type: "list",
-      name: "roleChoice",
-      message: "Please choose a role to delete.",
-      choices: availableRoles,
-    })
-    .then((answer) => {
-      removeRole = answer.roleChoice;
-      console.log(answer); // returns: { roleChoice: 'Salesman' }
-      console.log(removeRole); // returns: Salesman
-
-      // return to navigation menu
-      nav();
+  // first, perform a dabatase query to recieve role title and id
+  db.query(`SELECT * FROM roles`, function (err, result, fields) {
+    if (err) throw err;
+    result.forEach((dbData) => {
+      var role = dbData.id + ": " + dbData.title;
+      availableRoles.push(role);
     });
+    selectRole();
+  });
+
+  // then, move to prompts
+  function selectRole() {
+    inquirer
+      .prompt({
+        type: "list",
+        name: "roleChoice",
+        message: "Please choose a role to delete.",
+        choices: availableRoles,
+      })
+      .then((answer) => {
+        removeRole = answer.roleChoice;
+        console.log(answer); // returns: { roleChoice: '5: Bouquet Arranger' }
+        console.log(removeRole); // returns: 5: Bouquet Arranger
+
+        // return to navigation menu
+        nav();
+      });
+  }
 }
 
+// COMPLETED DATA REQUEST
 // Delete an employee from the database
 function deleteEmployee() {
   // variable for employee choice
-  availableEmployees = [
-    "Heather Gardenia",
-    "Sammy Sunflower",
-    "Chris Cornflower",
-  ];
+  const availableEmployees = [];
 
-  inquirer
-    .prompt({
-      type: "list",
-      name: "employeeChoice",
-      message: "Please choose an employee to delete.",
-      choices: availableEmployees,
-    })
-    .then((answer) => {
-      removeEmployee = answer.employeeChoice;
-      console.log(answer); // returns: { employeeChoice: 'Heather Gardenia' }
-      console.log(removeEmployee); // returns: Heather Gardenia
-
-      // return to navigation menu
-      nav();
+  // first, perform a dabatase query to recieve employee name and id
+  db.query(`SELECT * FROM employee`, function (err, result, fields) {
+    if (err) throw err;
+    result.forEach((dbData) => {
+      var employees = dbData.id + ": " + dbData.first_name + dbData.last_name;
+      availableEmployees.push(employees);
     });
+    selectEmployee();
+  });
+
+  // then, move to prompts
+  function selectEmployee() {
+    inquirer
+      .prompt({
+        type: "list",
+        name: "employeeChoice",
+        message: "Please choose an employee to delete.",
+        choices: availableEmployees,
+      })
+      .then((answer) => {
+        removeEmployee = answer.employeeChoice;
+        console.log(answer); // returns: { employeeChoice: '1: ChrisCornflower' }
+        console.log(removeEmployee); // returns: 1: ChrisCornflower
+
+        // return to navigation menu
+        nav();
+      });
+  }
 }
 
 // Exit the application
