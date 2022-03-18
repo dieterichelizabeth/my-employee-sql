@@ -44,7 +44,6 @@ VALUES ("Chris", "Cornflower", 1, NULL),
 --         ON roles.department_id = department.id
 --     LEFT JOIN employee AS manager ON manager.id = employee.manager_id;
 
-
         -- ADD A DEPARTMENT --
 -- INSERT INTO department (department_name)
 -- VALUES ("Customer Service");

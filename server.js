@@ -1,15 +1,32 @@
+const mysql = require("mysql");
 const inquirer = require("inquirer");
+require("dotenv").config();
 // const { exit } = require("process"); -- ?
+
+// Connect to database
+const db = mysql.createConnection(
+  {
+    host: "localhost",
+    // Your MySQL username,
+    user: process.env.DB_US,
+    // Your MySQL password
+    password: process.env.DB_PW,
+    database: "employee",
+  },
+
+  console.log("Connected to the employee database.")
+);
 
 // Ascii art from: https://www.asciiart.eu/food-and-drinks/coffee-and-tea
 function welcome() {
   console.log(`
       ;)( ;
     :----:         My Employee SQL:
-   C|====|    Employee Management systems
+   C|====|    Employee Management System
     |    |     
      ----
 `);
+
   nav();
 }
 
@@ -73,20 +90,52 @@ function nav() {
 
 // Display departments from the database
 function viewDepartments() {
-  console.log("Departments table");
-  nav();
+  console.log(" --- Departments table ---");
+
+  db.query(`SELECT * FROM department`, function (err, result, fields) {
+    if (err) throw err;
+    console.table(result);
+
+    nav();
+  });
 }
 
 // Display roles from the database
 function viewRoles() {
-  console.log("Roles table");
-  nav();
+  console.log(" --- Roles table --- ");
+
+  db.query(
+    `SELECT roles.id, roles.title, roles.salary, department.department_name
+    FROM roles
+    INNER JOIN department ON roles.department_id = department.id`,
+    function (err, result, fields) {
+      if (err) throw err;
+      console.table(result);
+
+      nav();
+    }
+  );
 }
 
 // Display employees from the database
 function viewEmployees() {
-  console.log("Employees table");
-  nav();
+  console.log(" --- Employees table ---");
+
+  db.query(
+    `SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.department_name, roles.salary, CONCAT(manager.last_name, ", ", manager.first_name) AS manager_full_name
+    FROM employee
+        LEFT JOIN roles 
+            ON employee.role_id = roles.id
+        LEFT JOIN department 
+            ON roles.department_id = department.id
+        LEFT JOIN employee AS manager ON manager.id = employee.manager_id`,
+    function (err, result, fields) {
+      if (err) throw err;
+      console.table(result);
+
+      nav();
+    }
+  );
 }
 
 // Display employees by manager
