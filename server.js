@@ -289,7 +289,7 @@ function addRole() {
     });
 }
 
-// COMPLETED DATA REQUEST
+// DONE
 // Add an employee to the database
 function addEmployee() {
   // variables for roles and managers
@@ -357,17 +357,32 @@ function addEmployee() {
       },
     ])
     .then((answers) => {
-      let employeeInput = [];
-      employeeInput.push(answers.firstNameInput);
-      employeeInput.push(answers.lastNameInput);
-      employeeInput.push(answers.roleInput);
-      employeeInput.push(answers.managerInput);
+      let firstName = answers.firstNameInput;
+      let lastName = answers.lastNameInput;
+      let roleArray = answers.roleInput.split("");
+      let roleId = roleArray[0];
 
-      console.log(answers); // returns: { firstNameInput: 'Valarie', lastNameInput: 'Violet', roleInput: '4: Delivery Driver', managerInput: '2: SammySunflower' }
-      console.log(employeeInput); // returns: [ 'Valarie', 'Violet', '1: Salesman', '2: SammySunflower' ]
+      // get the manager id, or if null- set to null
+      let managerId = [];
+      if (answers.managerInput === "null") {
+        managerId.push("null");
+      } else {
+        let managerArray = answers.managerInput.split("");
+        managerId.push(managerArray[0]);
+      }
 
-      // return to navigation menu
-      nav();
+      // query to add a new employee to the database
+      db.query(
+        `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+        VALUES ("${firstName}", "${lastName}", ${roleId}, ${managerId});`,
+        function (err, result, fields) {
+          if (err) throw err;
+          console.log(" Employee Added! ");
+
+          // return to navigation menu
+          nav();
+        }
+      );
     });
 }
 
@@ -573,7 +588,7 @@ function deleteRole() {
   }
 }
 
-// COMPLETED DATA REQUEST
+// DONE
 // Delete an employee from the database
 function deleteEmployee() {
   // variable for employee choice
@@ -599,12 +614,23 @@ function deleteEmployee() {
         choices: availableEmployees,
       })
       .then((answer) => {
-        removeEmployee = answer.employeeChoice;
-        console.log(answer); // returns: { employeeChoice: '1: ChrisCornflower' }
-        console.log(removeEmployee); // returns: 1: ChrisCornflower
+        // turn the answer into an array
+        employeeArray = answer.employeeChoice.split("");
+        // get the i.d.
+        let employeeId = employeeArray[0];
 
-        // return to navigation menu
-        nav();
+        // query to remove an employee from the database
+        db.query(
+          `DELETE FROM employee 
+          WHERE employee.id = ${employeeId};`,
+          function (err, result, fields) {
+            if (err) throw err;
+            console.log(" Employee Deleted! ");
+
+            // return to navigation menu
+            nav();
+          }
+        );
       });
   }
 }
