@@ -35,7 +35,7 @@ VALUES ("Chris", "Cornflower", 1, NULL),
 --     INNER JOIN department ON roles.department_id = department.id;
 
 
-        -- DISPLAY EMPLOYEES --
+--         -- DISPLAY EMPLOYEES --
 -- SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.department_name, roles.salary, CONCAT(manager.last_name, ", ", manager.first_name) AS manager_full_name
 -- FROM employee
 --     LEFT JOIN roles 

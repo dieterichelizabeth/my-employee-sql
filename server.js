@@ -1,7 +1,8 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const consoleTable = require("console.table");
 require("dotenv").config();
-// const { exit } = require("process"); -- ?
+const { exit } = require("process");
 
 // Connect to database
 const db = mysql.createConnection(
@@ -90,7 +91,9 @@ function nav() {
 
 // Display departments from the database
 function viewDepartments() {
-  console.log(" --- Departments table ---");
+  console.log(`
+Departments Table
+  `);
 
   db.query(`SELECT * FROM department`, function (err, result, fields) {
     if (err) throw err;
@@ -102,7 +105,9 @@ function viewDepartments() {
 
 // Display roles from the database
 function viewRoles() {
-  console.log(" --- Roles table --- ");
+  console.log(`
+Roles Table
+  `);
 
   db.query(
     `SELECT roles.id, roles.title, roles.salary, department.department_name
@@ -119,7 +124,9 @@ function viewRoles() {
 
 // Display employees from the database
 function viewEmployees() {
-  console.log(" --- Employees table ---");
+  console.log(`
+Employees Table
+  `);
 
   db.query(
     `SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.department_name, roles.salary, CONCAT(manager.last_name, ", ", manager.first_name) AS manager_full_name
@@ -140,7 +147,9 @@ function viewEmployees() {
 
 // Display employees by manager
 function viewEmployeesByManager() {
-  console.log(" --- Employees by Manager table ---");
+  console.log(`
+Employees by Manager Table
+  `);
 
   db.query(
     `SELECT employee.id, employee.first_name, employee.last_name, CONCAT(manager.last_name, ", ", manager.first_name) AS manager_full_name
@@ -158,7 +167,9 @@ function viewEmployeesByManager() {
 
 // Display employees by department
 function viewEmployeesByDepartment() {
-  console.log(" --- Employees by Department table --- ");
+  console.log(`
+Employees by Department Table
+  `);
 
   db.query(
     `SELECT employee.id, employee.first_name, employee.last_name, department.department_name
