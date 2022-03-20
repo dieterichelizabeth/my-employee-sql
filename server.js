@@ -255,7 +255,7 @@ function addRole() {
         type: "input",
         name: "salaryInput",
         message:
-          "Please enter a salary for the new role using the format: XXXXX.XX",
+          "Please enter a salary for the new role (using the format- XXXXX.XX):",
         validate: (salaryInput) => {
           if (!salaryInput) {
             console.log("Ack! Please enter a salary for the new role-");
@@ -312,7 +312,8 @@ function addEmployee() {
   db.query(`SELECT * FROM employee`, function (err, result, fields) {
     if (err) throw err;
     result.forEach((dbData) => {
-      var employees = dbData.id + ": " + dbData.first_name + dbData.last_name;
+      var employees =
+        dbData.id + ": " + dbData.last_name + ", " + dbData.first_name;
       availableManagers.push(employees);
     });
     availableManagers.push("null");
@@ -408,7 +409,8 @@ function updateEmployeeRole() {
   db.query(`SELECT * FROM employee`, function (err, result, fields) {
     if (err) throw err;
     result.forEach((dbData) => {
-      var employees = dbData.id + ": " + dbData.first_name + dbData.last_name;
+      var employees =
+        dbData.id + ": " + dbData.last_name + ", " + dbData.first_name;
       availableEmployees.push(employees);
     });
     selectNewRole();
@@ -466,7 +468,8 @@ function updateEmployeeManager() {
   db.query(`SELECT * FROM employee`, function (err, result, fields) {
     if (err) throw err;
     result.forEach((dbData) => {
-      var employees = dbData.id + ": " + dbData.first_name + dbData.last_name;
+      var employees =
+        dbData.id + ": " + dbData.first_name + " " + dbData.last_name;
       availableEmployees.push(employees);
       availableManagers.push(employees);
     });
@@ -626,7 +629,8 @@ function deleteEmployee() {
   db.query(`SELECT * FROM employee`, function (err, result, fields) {
     if (err) throw err;
     result.forEach((dbData) => {
-      var employees = dbData.id + ": " + dbData.first_name + dbData.last_name;
+      var employees =
+        dbData.id + ": " + dbData.first_name + " " + dbData.last_name;
       availableEmployees.push(employees);
     });
     selectEmployee();
