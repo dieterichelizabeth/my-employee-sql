@@ -13,7 +13,7 @@ In addition, the user is able to add or delete- departments, roles, and employee
 
 For this project, the seeds mock a flower shop. However, the database schema and queries can be used for any type of business.
 
-## Demo
+[Click to view the Demo Video](https://drive.google.com/file/d/1Pjj1g-7rd-aFZJs74tHenJw5iOjHELoc/view)
 
 ## Usage/Example
 
