@@ -26,15 +26,8 @@ VALUES ("Chris", "Cornflower", 1, NULL),
 --- DISPLAY View the total utilized budget of a department—in other words, the combined salaries of all employees in that department. --
 SELECT department.department_name, SUM(roles.salary)
 FROM employee
-INNER JOIN roles
-    ON employee.role_id = roles.id
-LEFT JOIN department 
-    ON roles.department_id = department.id
-ORDER BY department.department_name;
-
-SELECT department.department_name, SUM(roles.salary)
-FROM department
-INNER JOIN roles ON roles.department_id = department.id
+INNER JOIN roles ON employee.role_id = roles.id
+INNER JOIN department ON roles.department_id = department.id
 GROUP BY department.department_name;
 
         -- DISPLAY DEPARTMENTS --
