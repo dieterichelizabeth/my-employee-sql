@@ -23,13 +23,6 @@ VALUES ("Chris", "Cornflower", 1, NULL),
        ("Ally", "Anemone", 6, 3),
        ("Brick", "Begonia", 7, 2);
 
---- DISPLAY View the total utilized budget of a department—in other words, the combined salaries of all employees in that department. --
-SELECT department.department_name, SUM(roles.salary)
-FROM employee
-INNER JOIN roles ON employee.role_id = roles.id
-INNER JOIN department ON roles.department_id = department.id
-GROUP BY department.department_name;
-
         -- DISPLAY DEPARTMENTS --
 -- SELECT * FROM department;
 
@@ -87,6 +80,13 @@ GROUP BY department.department_name;
 -- LEFT JOIN department 
 --         ON roles.department_id = department.id
 -- ORDER BY department_name DESC;
+
+--- DISPLAY View the total utilized budget of a department—in other words, the combined salaries of all employees in that department. --
+-- SELECT department.department_name, SUM(roles.salary)
+-- FROM employee
+-- INNER JOIN roles ON employee.role_id = roles.id
+-- INNER JOIN department ON roles.department_id = department.id
+-- GROUP BY department.department_name;
 
         -- DELETE A DEPARTMENT --
 -- DELETE FROM department

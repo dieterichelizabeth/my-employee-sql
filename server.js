@@ -44,6 +44,7 @@ function nav() {
         "View All Employees",
         "View Employees by Manager",
         "View Employees by Department",
+        "View total budget of a Department",
         "Add a Department",
         "Add a Role",
         "Add an Employee",
@@ -67,6 +68,8 @@ function nav() {
         viewEmployeesByManager();
       } else if (nextPrompt === "View Employees by Department") {
         viewEmployeesByDepartment();
+      } else if (nextPrompt === "View total budget of a Department") {
+        viewBudget();
       } else if (nextPrompt === "Add a Department") {
         addDepartment();
       } else if (nextPrompt === "Add a Role") {
@@ -179,6 +182,27 @@ Employees by Department Table
     LEFT JOIN department 
             ON roles.department_id = department.id
     ORDER BY department_name DESC;`,
+    function (err, result, fields) {
+      if (err) throw err;
+      console.table(result);
+
+      nav();
+    }
+  );
+}
+
+// Display Budget by Department
+function viewBudget() {
+  console.log(`
+Department Budget Table
+  `);
+
+  db.query(
+    `SELECT department.department_name AS Department, SUM(roles.salary) AS Budget
+    FROM employee
+    INNER JOIN roles ON employee.role_id = roles.id
+    INNER JOIN department ON roles.department_id = department.id
+    GROUP BY department.department_name;`,
     function (err, result, fields) {
       if (err) throw err;
       console.table(result);
