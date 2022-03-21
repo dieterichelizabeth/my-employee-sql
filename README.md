@@ -9,7 +9,7 @@ SO THAT I can organize and plan my business
 ```
 
 The project accepts user input to update a database with employee information. Once started, the user is able to view information such as deparments, roles, employees, employees by manager, and employees by department.
-In addition, the user is able to add or delete- departments, roles, and employees (as well as update employee roles and managers).
+In addition, the user is able to add or delete- departments, roles, and employees (as well as update employee roles and managers). Update: Users are able to view the total budget for each department (combined salaries of all employees in that department).
 
 For this project, the seeds mock a flower shop. However, the database schema and queries can be used for any type of business.
 
