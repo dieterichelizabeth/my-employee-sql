@@ -113,7 +113,7 @@ Roles Table
   `);
 
   db.query(
-    `SELECT roles.id, roles.title, roles.salary, department.department_name
+    `SELECT roles.id, roles.title AS Title, roles.salary AS Salary, department.department_name AS Department
     FROM roles
     INNER JOIN department ON roles.department_id = department.id`,
     function (err, result, fields) {
@@ -132,7 +132,7 @@ Employees Table
   `);
 
   db.query(
-    `SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.department_name, roles.salary, CONCAT(manager.last_name, ", ", manager.first_name) AS manager_full_name
+    `SELECT employee.id, employee.first_name AS First, employee.last_name AS Last, roles.title AS Role, department.department_name AS Department, roles.salary AS Salary, CONCAT(manager.last_name, ", ", manager.first_name) AS Manager
     FROM employee
         LEFT JOIN roles 
             ON employee.role_id = roles.id
@@ -155,10 +155,10 @@ Employees by Manager Table
   `);
 
   db.query(
-    `SELECT employee.id, employee.first_name, employee.last_name, CONCAT(manager.last_name, ", ", manager.first_name) AS manager_full_name
+    `SELECT employee.id, employee.first_name AS First, employee.last_name AS Last, CONCAT(manager.last_name, ", ", manager.first_name) AS Manager
     FROM employee
     LEFT JOIN employee AS manager ON manager.id = employee.manager_id
-    ORDER BY manager_full_name DESC`,
+    ORDER BY Manager DESC`,
     function (err, result, fields) {
       if (err) throw err;
       console.table(result);
@@ -175,13 +175,13 @@ Employees by Department Table
   `);
 
   db.query(
-    `SELECT employee.id, employee.first_name, employee.last_name, department.department_name
+    `SELECT employee.id, employee.first_name AS First, employee.last_name AS Last, department.department_name AS Department
     FROM employee
     LEFT JOIN roles 
             ON employee.role_id = roles.id
     LEFT JOIN department 
             ON roles.department_id = department.id
-    ORDER BY department_name DESC;`,
+    ORDER BY Department DESC;`,
     function (err, result, fields) {
       if (err) throw err;
       console.table(result);
